@@ -10,6 +10,8 @@ export const typeDefs = gql`
     markTodoCompleted(id: Int!): ToDo
     markTodoUncompleted(id: Int!): ToDo
     deleteTodo(id: Int!): Success
+    registerUser(input: RegisterInput): User
+    loginUser(input: LoginInput): User
   }
 
   type ToDo {
@@ -20,5 +22,23 @@ export const typeDefs = gql`
 
   type Success {
     isSuccess: Boolean
+  }
+
+  type User {
+    username: String
+    email: String
+    password: String
+    token: String
+  }
+
+  input RegisterInput {
+    username: String
+    email: String
+    password: String
+  }
+
+  input LoginInput {
+    email: String
+    password: String
   }
 `

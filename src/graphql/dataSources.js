@@ -1,6 +1,8 @@
 import { mysqlConnect } from "../util/mysql/"
 import { createNoteModel } from "../modules/notes/models/noteModel"
+import { createUserModel } from "../modules/user/models/userModel"
 import TodoDataSource from "../modules/notes/datasources/TodoDatasource"
+import UserDatasource from "../modules/user/datasources/UserDatasource"
 
 export const buildDataSources = async config => {
   const { testMySQLUri } = config
@@ -12,6 +14,7 @@ export const buildDataSources = async config => {
 
   // You can add many datasources in here
   const todoDataSource = new TodoDataSource(createNoteModel(testMySQLConn))
+  const userDataSource = new UserDatasource(createUserModel(testMySQLConn))
 
-  return { todoDataSource }
+  return { todoDataSource, userDataSource }
 }
