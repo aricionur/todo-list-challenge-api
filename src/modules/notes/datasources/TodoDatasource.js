@@ -8,7 +8,7 @@ class TodoDataSource extends RESTDataSource {
     this.model = model
   }
 
-  async saveTodo(args) {
+  async saveTodo(args, user) {
     const { id } = args
     const today = new Date()
     args.updatedAt = today
@@ -17,7 +17,11 @@ class TodoDataSource extends RESTDataSource {
       const [updatedData] = await this.model.upsert(args)
       return updatedData
     } else {
+      const { userID } = user
+
+      if (userID) args.userID = userID
       args.createdAt = today
+
       return this.model.create(args)
     }
   }
@@ -45,9 +49,11 @@ class TodoDataSource extends RESTDataSource {
     return { isSuccess: true }
   }
 
-  listTodos(args) {
+  listTodos(args, user) {
+    if (user.userID) args.userID = user.userID
+
     if (args.id) return this.model.findOne(args)
-    return this.model.findAll(args)
+    return this.model.findAll({ where: args })
   }
 }
 

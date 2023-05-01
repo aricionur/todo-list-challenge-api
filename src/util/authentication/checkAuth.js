@@ -9,8 +9,7 @@ export const checkAuth = auth => {
     if (token) {
       try {
         const user = jwt.verify(token, "THE_SECRET_KEY")
-        // you can use the user info if needed in future...
-        return true
+        return user
       } catch (error) {
         throw new Error("Invalid/Expired token")
       }
@@ -20,4 +19,10 @@ export const checkAuth = auth => {
   }
 
   throw new Error("Authorization header must be provided.")
+}
+
+export const authMiddleware = next => (parent, args, context) => {
+  context.user = checkAuth(context.auth)
+
+  return next(parent, args, context)
 }

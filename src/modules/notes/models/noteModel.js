@@ -21,6 +21,9 @@ const tableSchema = {
   createdAt: {
     type: DataTypes.DATE,
   },
+  userID: {
+    type: DataTypes.INTEGER,
+  },
 }
 
 const modelOptions = { freezeTableName: true }
